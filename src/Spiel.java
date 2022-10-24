@@ -1,5 +1,3 @@
-package PferdMain;
-
 import java.util.Scanner;
 
 public class Spiel {
