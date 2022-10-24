@@ -1,10 +1,12 @@
 public class Spieler {
     String name;
     int kapital;
+    int startKapital;
 
-    Spieler(String name, int kapital) {
+    Spieler(String name, int startKapital) {
         this.name = name;
-        this.kapital = kapital;
+        this.kapital = startKapital;
+        this.startKapital = startKapital;
     }
 
     public String getName() {
@@ -17,5 +19,9 @@ public class Spieler {
 
     public void setKapital(int kapital) {
         this.kapital = kapital;
+    }
+
+    public int getStartKapital() {
+        return startKapital;
     }
 }
