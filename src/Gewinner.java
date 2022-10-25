@@ -2,36 +2,36 @@ import java.util.ArrayList;
 
 public class Gewinner {
     private final ArrayList<Integer> chance = new ArrayList<>();
-    private final ArrayList<Integer> arrayList = new ArrayList<>();
-    private int winner;
+    private final ArrayList<Long> arrayList = new ArrayList<>();
     private final int anz_pferde;
-    private final int randomness;
+    private final int winner;
+    private final int randomness = 100;
 
-    Gewinner(int anz_pferde, int randomness){
+    Gewinner(int anz_pferde){
         this.anz_pferde = anz_pferde;
-        this.randomness = randomness;
         for (int i = 0; i < randomness; i++){
-            double rand_dub = Math.random() * (anz_pferde - 1);
-            int rand = (int) Math.round(rand_dub);
+            long rand = Math.round(Math.random() * (anz_pferde - 1));
             this.arrayList.add(rand);
         }
 
-        for (int i = 0; i < anz_pferde; i++){
-            calc(0, i);
+        for (int i = 0; i < anz_pferde; i++) {
+            chance.add(calc(i));
         }
-        choose();
+        winner = choose();
     }
 
-    public void calc(int chance, int get){
+    public int calc(int get){
+        int chance = 0;
         for (int i = 0; i < randomness; i++){
-            if (this.arrayList.get(i) == get){
+            if (arrayList.get(i) == get){
                 chance = chance + 1;
             }
         }
-        this.chance.add(chance);
+        return chance;
     }
 
-    public void choose(){
+    public int choose(){
+        int winner = 0;
         double max = -1;
         for (int i = 0; i < anz_pferde; i++){
             double max_dub = Math.random() * chance.get(i);
@@ -40,13 +40,16 @@ public class Gewinner {
                 winner = i + 1;
             }
         }
+        return winner;
     }
 
     public ArrayList<Integer> getChance() {
         return this.chance;
     }
-
     public int getWinner() {
         return winner;
+    }
+    public int getRandomness() {
+        return randomness;
     }
 }

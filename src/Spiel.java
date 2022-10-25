@@ -4,7 +4,6 @@ public class Spiel {
     Scanner sc = new Scanner(System.in);
     private int anzahl;
     final int anzPferde = 6;
-    final int randomness = 100;
     Spieler spieler;
     Gewinner gewinner;
     public static final String RESET = "\u001B[0m";
@@ -47,12 +46,12 @@ public class Spiel {
             setzen();
             return;
         }
-        gewinner = new Gewinner(anzPferde, randomness);
+        gewinner = new Gewinner(anzPferde);
         pferde();
         wahlen();
     }
     public void pferde(){
-        float div = (float)randomness / 100;
+        float div = (float)gewinner.getRandomness() / 100;
         for (int i = 0; anzPferde > i; i++){
             System.out.println("Pferd" + (i + 1) + " = " + gewinner.getChance().get(i) / div + "%");
         }
@@ -61,22 +60,22 @@ public class Spiel {
     public void wahlen() {
         System.out.println("Wählen sie ein Pferd indem sie eine Zahl zwischen 1 und " + anzPferde + " eintippen:");
         try {
+            sc = new Scanner(System.in);
             int num = sc.nextInt();
             if (num > anzPferde || num < 1){
                 System.out.println("Geben sie eine Zahl zwischen 1 und " + anzPferde + " an!");
                 wahlen();
                 return;
             }
+            System.out.println("Pferd nummer " + gewinner.getWinner() + " hat gewonnen!");
             if (num == gewinner.getWinner()) {
-                System.out.println("Pferd nummer " + gewinner.getWinner() + " hat gewonnen!");
-                double chance_prozent = gewinner.getChance().get(gewinner.getWinner() - 1);
-                double win_dub = (randomness/chance_prozent) * anzahl;
+                double chanceProzent = gewinner.getChance().get(gewinner.getWinner() - 1);
+                double win_dub = (gewinner.getRandomness()/chanceProzent) * anzahl;
                 int win = (int) Math.round(win_dub);
                 System.out.println("Sie haben " + GREEN + win + "$" + RESET + " gewonnen!");
                 spieler.setKapital(spieler.getKapital() + win);
             }
             else {
-                System.out.println("Pferd nummer " + gewinner.getWinner() + " hat gewonnen!");
                 System.out.println("Sie haben " + GREEN + anzahl + "$" + RESET + " verloren!");
                 spieler.setKapital(spieler.getKapital() - anzahl);
             }
