@@ -107,17 +107,18 @@ public class Spiel {
 
     public void again(){
         System.out.println("Möchten sie nochmals Spielen?[Ja/Nein]");
+        sc = new Scanner(System.in);
         String antwort = sc.nextLine();
         if (antwort.equalsIgnoreCase("Ja") || antwort.equalsIgnoreCase("J")){
             spieler.setKapital(spieler.getStartKapital());
-            setzen();
+            new Spiel();
+            return;
         }
-        else if (antwort.equalsIgnoreCase("Nein") || antwort.equalsIgnoreCase("N")){
+        if (antwort.equalsIgnoreCase("Nein") || antwort.equalsIgnoreCase("N")){
             System.exit(0);
+            return;
         }
-        else {
-            System.out.println("Geben sie Ja oder Nein ein!");
-            again();
-        }
+        System.out.println("Geben sie Ja oder Nein ein!");
+        again();
     }
 }
