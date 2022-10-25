@@ -20,8 +20,10 @@ public class Spiel {
     }
 
     public void setzen() {
+        Gewinner gewinner;
         System.out.println("Wie viel möchten sie setzen?");
         try {
+            sc = new Scanner(System.in);
             String anz = sc.nextLine();
             if (anz.equalsIgnoreCase("end")){
                 end();
@@ -37,15 +39,16 @@ public class Spiel {
             if (this.anzahl == spieler.getKapital()) {
                 System.out.println("All in!");
             }
-            Gewinner gew = new Gewinner(anzPferde, randomness);
-            pferde(gew);
-            wahlen(gew);
         }
-        catch (Exception e){
+        catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Geben sie einen gültigen Betrag an!");
-            System.out.println("e.getCause()");
             setzen();
+            return;
         }
+        gewinner = new Gewinner(anzPferde, randomness);
+        pferde(gewinner);
+        wahlen(gewinner);
     }
     public void pferde(Gewinner gew){
         float div = (float)randomness / 100;
@@ -77,12 +80,13 @@ public class Spiel {
                 spieler.setKapital(spieler.getKapital() - anzahl);
             }
             System.out.println("Sie haben ein Kapital von: " + spieler.getKapital() + "$");
-            setzen();
         }
         catch (Exception e){
             System.out.println("Geben sie einen gültigen Betrag an!");
             wahlen(gewinner);
+            return;
         }
+        setzen();
     }
 
     public void end(){
