@@ -6,6 +6,7 @@ public class Spiel {
     final int anzPferde = 6;
     final int randomness = 100;
     Spieler spieler;
+    Gewinner gewinner;
     public static final String RESET = "\u001B[0m";
     public static final String GREEN = "\u001B[32m";
 
@@ -22,7 +23,6 @@ public class Spiel {
     }
 
     public void setzen() {
-        Gewinner gewinner;
         System.out.println("Wie viel möchten sie setzen?");
         try {
             sc = new Scanner(System.in);
@@ -48,23 +48,23 @@ public class Spiel {
             return;
         }
         gewinner = new Gewinner(anzPferde, randomness);
-        pferde(gewinner);
-        wahlen(gewinner);
+        pferde();
+        wahlen();
     }
-    public void pferde(Gewinner gew){
+    public void pferde(){
         float div = (float)randomness / 100;
         for (int i = 0; anzPferde > i; i++){
-            System.out.println("Pferd" + (i + 1) + " = " + gew.getChance().get(i) / div + "%");
+            System.out.println("Pferd" + (i + 1) + " = " + gewinner.getChance().get(i) / div + "%");
         }
     }
 
-    public void wahlen(Gewinner gewinner) {
+    public void wahlen() {
         System.out.println("Wählen sie ein Pferd indem sie eine Zahl zwischen 1 und " + anzPferde + " eintippen:");
         try {
             int num = sc.nextInt();
             if (num > anzPferde || num < 1){
                 System.out.println("Geben sie eine Zahl zwischen 1 und " + anzPferde + " an!");
-                wahlen(gewinner);
+                wahlen();
                 return;
             }
             if (num == gewinner.getWinner()) {
@@ -84,7 +84,7 @@ public class Spiel {
         }
         catch (Exception e){
             System.out.println("Geben sie einen gültigen Betrag an!");
-            wahlen(gewinner);
+            wahlen();
             return;
         }
         setzen();
@@ -92,7 +92,7 @@ public class Spiel {
 
     public void end(){
         System.out.println("Das Spiel ist vorbei!");
-        System.out.println("Ihr End Kapital beträgt: " + GREEN + spieler.getKapital() + "$" + RESET);
+        System.out.println("Ihr end Kapital beträgt: " + GREEN + spieler.getKapital() + "$" + RESET);
         if (spieler.getKapital() > spieler.getStartKapital()){
             System.out.println("Sie haben gewonne!");
         }
@@ -103,15 +103,16 @@ public class Spiel {
             System.out.println("Sie haben weder gewonnen oder verloren!");
         }
         System.out.println("Vielen Dank " + spieler.getName() + " fürs spielen.\n");
+        System.out.println("Möchten Sie nochmals spielen?[Ja/Nein]");
         again();
     }
 
     public void again(){
-        System.out.println("Möchten sie nochmals Spielen?[Ja/Nein]");
         sc = new Scanner(System.in);
         String antwort = sc.nextLine();
         if (antwort.equalsIgnoreCase("Ja") || antwort.equalsIgnoreCase("J")){
             spieler.setKapital(spieler.getStartKapital());
+            System.out.println("\n");
             new Spiel();
             return;
         }
