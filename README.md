@@ -1,4 +1,4 @@
-# Pferderennen
+# Horse Racing
 Bet on horses so you can win all the money in the world
 
 ## How do you play?
